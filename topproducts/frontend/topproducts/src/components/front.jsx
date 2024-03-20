@@ -7,31 +7,27 @@ function ProductSearch() {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
+  const [list,setList]=useState([])
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
-      const url = `http://20.244.56.144/products/companies/${company}/categories/${category}/products?top=10&minPrice=${minPrice}&maxPrice=${maxPrice}`;
-      const response = await fetch(url);
-      
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      setProducts(data);
-      setLoading(false);
-    } catch (error) {
-      setError(error);
-      setLoading(false);
-    }
-  };
-
+    const data=new FormData()
+    data.append("company",company)
+    data.append("category",category)
+    data.append("min_price",minPrice)
+    data.append("max_price",maxPrice)
+    data.append("no_of_products",products)
+    fetch('http://127.0.0.1:8000/get-products',{
+        method:'POST',
+        headers :{
+            "Content-Type": "application/json"
+        },
+        body:data
+    }).then(res=>res.json()).then(data=>{
+        setList(data)
+    }).catch(err=>{
+        console.log(err)
+    })
+  }
   return (
     <div>
         <Header/>
@@ -70,6 +66,15 @@ function ProductSearch() {
             type="number"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          No of Products:
+          <input
+            type="number"
+            value={products}
+            onChange={(e) => setProducts(e.target.value)}
           />
         </label>
         <br />

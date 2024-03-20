@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 import requests
 
-@api_view(['GET'])
+@api_view(['POST'])
 def get_products(request):
     company = request.data.get("company", '')
     category = request.data.get("category", '')
