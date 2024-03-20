@@ -30,7 +30,6 @@ function ProductSearch() {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         setList(data);
       })
       .catch(err => {
@@ -48,7 +47,8 @@ function ProductSearch() {
           <input
             type="text"
             value={company}
-            onChange={(e) => setCompany(e.target.value) }
+            onChange={(e) => setCompany(e.target.value)}
+            required
           />
         </label>
         <br />
@@ -58,6 +58,7 @@ function ProductSearch() {
             type="text"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
+            required
           />
         </label>
         <br />
@@ -67,6 +68,7 @@ function ProductSearch() {
             type="number"
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
+            required
           />
         </label>
         <br />
@@ -76,6 +78,7 @@ function ProductSearch() {
             type="number"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
+            required
           />
         </label>
         <br />
@@ -85,6 +88,7 @@ function ProductSearch() {
             type="number"
             value={products}
             onChange={(e) => setProducts(e.target.value)}
+            required
           />
         </label>
         <br />
@@ -106,7 +110,6 @@ function ProductSearch() {
           ))}
         </ul>
       </div>
-
       <Footer />
     </div>
   );
