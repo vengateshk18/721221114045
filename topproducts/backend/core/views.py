@@ -5,6 +5,7 @@ import requests
 
 @api_view(['POST'])
 def get_products(request):
+    print(request.POST)
     company = request.data.get("company", '')
     category = request.data.get("category", '')
     no_of_products = request.data.get("no_of_products", 5)
@@ -24,6 +25,7 @@ def get_products(request):
         response.raise_for_status()  
         return Response(response.json(), status=response.status_code)
     except Exception as e:
+        print(e)
         return Response({'message': f"something went wrong in responce {e}"}, status=400)
 
 def get_token():

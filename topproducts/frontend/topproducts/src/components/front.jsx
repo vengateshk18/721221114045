@@ -1,36 +1,46 @@
 import React, { useState } from 'react';
 import Footer from './footer';
 import Header from './header';
+
 function ProductSearch() {
   const [company, setCompany] = useState('');
   const [category, setCategory] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [products, setProducts] = useState([]);
-  const [list,setList]=useState([])
+  const [products, setProducts] = useState('');
+  const [list, setList] = useState([]);
+  const [error, setError] = useState(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data=new FormData()
-    data.append("company",company)
-    data.append("category",category)
-    data.append("min_price",minPrice)
-    data.append("max_price",maxPrice)
-    data.append("no_of_products",products)
-    fetch('http://127.0.0.1:8000/get-products',{
-        method:'POST',
-        headers :{
-            "Content-Type": "application/json"
-        },
-        body:data
-    }).then(res=>res.json()).then(data=>{
-        setList(data)
-    }).catch(err=>{
-        console.log(err)
+    const formData = {
+      company: company,
+      category: category,
+      min_price: minPrice,
+      max_price: maxPrice,
+      no_of_products: products
+    };
+
+    fetch('http://127.0.0.1:8000/get-products', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
     })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setList(data);
+      })
+      .catch(err => {
+        setError(err);
+      });
   }
+
   return (
     <div>
-        <Header/>
+      <Header />
       <h2>Product Search</h2>
       <form onSubmit={handleSubmit}>
         <label>
@@ -38,7 +48,7 @@ function ProductSearch() {
           <input
             type="text"
             value={company}
-            onChange={(e) => setCompany(e.target.value)}
+            onChange={(e) => setCompany(e.target.value) }
           />
         </label>
         <br />
@@ -80,7 +90,24 @@ function ProductSearch() {
         <br />
         <button type="submit">Search</button>
       </form>
-      <Footer/>
+
+      {error && <div>Error: {error.message}</div>}
+      <div>
+        <h3>Product List</h3>
+        <ul>
+          {list.map((item, index) => (
+            <li key={index}>
+              <p>Product Name: {item.productName}</p>
+              <p>Price: {item.price}</p>
+              <p>Rating: {item.rating}</p>
+              <p>Discount: {item.discount}</p>
+              <p>Availability: {item.availability}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <Footer />
     </div>
   );
 }
