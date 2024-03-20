@@ -23,8 +23,9 @@ def get_products(request):
         content="http://20.244.56.144/products/companies/AMZ/categories/Phone/products?top=10&minPrice=10&maxPrice=10000"
         response = requests.get(f"http://20.244.56.144/products/companies/{company}/categories/{category}/products?top={no_of_products}&minPrice={minPrice}&maxPrice={maxPrice}", headers=headers)
         response.raise_for_status()  
-        print(response.json())
-        return Response(response.json(), status=response.status_code)
+        data=response.json()
+        data.sort(key=lambda x: x['rating'], reverse=True)
+        return Response(data, status=response.status_code)
     except Exception as e:
         print(e)
         return Response({'message': f"something went wrong in responce {e}"}, status=400)
