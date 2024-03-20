@@ -6,8 +6,7 @@ function Header(){
     return(
         <header>
             <nav>
-                <li><Link to="/">FroutEnd</Link></li>
-                <li><Link to="/create">create</Link></li>
+                <li><Link to="/">Top Products</Link></li>
             </nav>
         </header>
     )

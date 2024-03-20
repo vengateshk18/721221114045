@@ -13,7 +13,6 @@ def get_products(request):
     sorting = request.data.get("sorting", '')
     minPrice = request.data.get("min_price", 0)
     maxPrice = request.data.get("max_price", 100000)
-    print(minPrice+" "+maxPrice+" "+no_of_products+" "+category+" "+company)
     try:
         token=get_token()
         headers = {
